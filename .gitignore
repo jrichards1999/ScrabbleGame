@@ -46,3 +46,23 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+/Assets/Plugins/GitHub/Editor/AsyncBridge.Net35.dll
+/Assets/Plugins/GitHub/Editor/big-logo@2x.png
+/Assets/Plugins/GitHub/Editor/credits.txt
+/Assets/Plugins/GitHub/Editor/eula.txt
+/Assets/Plugins/GitHub/Editor/ExtensionLoader.cs
+/Assets/Plugins/GitHub/Editor/GitHub.Api.45.dll
+/Assets/Plugins/GitHub/Editor/GitHub.Api.dll
+/Assets/Plugins/GitHub/Editor/GitHub.Logging.dll
+/Assets/Plugins/GitHub/Editor/GitHub.Unity.45.dll
+/Assets/Plugins/GitHub/Editor/GitHub.Unity.dll
+/Assets/Plugins/GitHub/Editor/GitHub.UnityShim.dll
+/Assets/Plugins/GitHub/Editor/Mono.Posix.dll
+/Assets/Plugins/GitHub/Editor/ReadOnlyCollectionsInterfaces.dll
+/Assets/Plugins/GitHub/Editor/sfw.net.dll
+/Assets/Plugins/GitHub/Editor/System.Threading.dll
+/Assets/Plugins/GitHub/Editor/UnityAPIWrapper.cs
+/Assets/Plugins/GitHub/Editor/x64/pthreadVC2.dll
+/Assets/Plugins/GitHub/Editor/x64/sfw_x64.dll
+/Assets/Plugins/GitHub/Editor/x86/pthreadVC2.dll
+/Assets/Plugins/GitHub/Editor/x86/sfw_x86.dll

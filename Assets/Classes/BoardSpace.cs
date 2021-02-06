@@ -4,24 +4,29 @@ using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class boardSpace : MonoBehaviour
+    public class BoardSpace : MonoBehaviour
     {
-        private tile tile;
+        private Tile tile;
         private string modifier;
         private bool isEmpty;
 
-        public boardSpace()
+        public BoardSpace()
         {
             tile = null;
             modifier = "";
             isEmpty = true;
         }
 
-        public boardSpace(tile tileObject, string modifierString, bool empty)
+        public BoardSpace(Tile tileObject, string modifierString, bool empty)
         {
             tile = tileObject;
             modifier = modifierString;
             isEmpty = empty;
+        }
+
+        public void SetTile(Tile tile)
+        {
+            this.tile = tile;
         }
 
         // Start is called before the first frame update
