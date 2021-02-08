@@ -32,6 +32,7 @@ namespace ScrabbleNamespace
                 case 'Q': return 10;
                 case 'R': return 1;
                 case 'S': return 1;
+                case 'T': return 1;
                 case 'U': return 1;
                 case 'V': return 4;
                 case 'W': return 4;
