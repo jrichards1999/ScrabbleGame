@@ -32,10 +32,6 @@ public class Player : MonoBehaviour
         return TotalPoints;
     }
 
-    public void drawTile()
-    {
-        //TODO - add function to draw a random tile from the remaining pile and add it to TileList once tile class is in place.
-    }
 
     // Start is called before the first frame update
     void Start()

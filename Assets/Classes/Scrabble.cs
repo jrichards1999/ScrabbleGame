@@ -8,7 +8,8 @@ namespace ScrabbleNamespace
     public class Scrabble : MonoBehaviour
     {
         Player p1 = new Player();
-        public ArrayList TilePile;
+        Player p2 = new Player();
+        public List<Tile> TilePile;
 
         // Start is called before the first frame update
         void Start()
@@ -22,9 +23,9 @@ namespace ScrabbleNamespace
 
         }
 
-        public ArrayList initializeTilePile()
+        public List<Tile> initializeTilePile()
         {
-            ArrayList tilePile = new ArrayList();
+            List<Tile> tilePile = new List<Tile>();
             for(char tileLetter = 'A'; tileLetter < 'Z'; tileLetter++)
             {
                 var numOfTile = GetNumOfTile(tileLetter);
@@ -38,6 +39,8 @@ namespace ScrabbleNamespace
             {
                 tilePile.Add(new Tile(' ', true));
             }
+
+            tilePile = Shuffle(tilePile); //Need to test this shuffle function with debugger.
 
             return tilePile;
         }
@@ -75,6 +78,39 @@ namespace ScrabbleNamespace
                 default: return 0;
             }
         }
+
+        public Tile drawTile()
+        {
+            if(TilePile.Count > 0)
+            {
+                var toRtn = TilePile[0];
+                TilePile.RemoveAt(0);
+                return toRtn;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<Tile> Shuffle(List<Tile> list)
+        {
+            System.Random rng = new System.Random();
+
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                Tile value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+            return list;
+        }
+
     }
+
+
 }
 
