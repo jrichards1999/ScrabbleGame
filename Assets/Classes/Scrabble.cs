@@ -9,7 +9,7 @@ namespace ScrabbleNamespace
     {
         Player p1 = new Player();
         Player p2 = new Player();
-        public List<Tile> TilePile;
+        public List<Tile> tilePile;
 
         static BoardSpace[,] BoardSpaces = new BoardSpace[15, 15];
 
@@ -195,7 +195,7 @@ namespace ScrabbleNamespace
         // Start is called before the first frame update
         void Start()
         {
-            TilePile = initializeTilePile();
+            tilePile = initializeTilePile();
         }
 
         // Update is called once per frame
@@ -206,24 +206,24 @@ namespace ScrabbleNamespace
 
         public List<Tile> initializeTilePile()
         {
-            List<Tile> TilePile = new List<Tile>();
-            for(char TileLetter = 'A'; TileLetter < 'Z'; TileLetter++)
+            List<Tile> tilePile = new List<Tile>();
+            for(char tileLetter = 'A'; tileLetter < 'Z'; tileLetter++)
             {
-                var numOfTile = GetNumOfTile(TileLetter);
+                var numOfTile = GetNumOfTile(tileLetter);
                 for(int i = 0; i < numOfTile; i++)
                 {
-                    TilePile.Add(new Tile(TileLetter));
+                    tilePile.Add(new Tile(tileLetter));
                 }
             }
 
             for(int i = 0; i < 2; i++)
             {
-                TilePile.Add(new Tile(' ', true));
+                tilePile.Add(new Tile(' ', true));
             }
 
-            TilePile = Shuffle(TilePile); //Need to test this shuffle function with debugger.
+            tilePile = Shuffle(tilePile); //Need to test this shuffle function with debugger.
 
-            return TilePile;
+            return tilePile;
         }
 
         int GetNumOfTile(char c)
@@ -262,10 +262,10 @@ namespace ScrabbleNamespace
 
         public Tile drawTile()
         {
-            if(TilePile.Count > 0)
+            if(tilePile.Count > 0)
             {
-                var toRtn = TilePile[0];
-                TilePile.RemoveAt(0);
+                var toRtn = tilePile[0];
+                tilePile.RemoveAt(0);
                 return toRtn;
             }
             else
