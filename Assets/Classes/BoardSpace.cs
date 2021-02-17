@@ -9,19 +9,50 @@ namespace ScrabbleNamespace
         private Tile tile;
         private string modifier;
         private bool isEmpty;
+        private int boardLocationX;
+        private int boardLocationY;
 
         public BoardSpace()
         {
             tile = null;
             modifier = "";
             isEmpty = true;
+            boardLocationX = 0;
+            boardLocationY = 0;
         }
 
-        public BoardSpace(Tile tileObject, string modifierString, bool empty)
+        public BoardSpace(Tile tileObject, string modifierString, bool empty, int locationX, int locationY)
         {
             tile = tileObject;
             modifier = modifierString;
             isEmpty = empty;
+            boardLocationX = locationX;
+            boardLocationY = locationY;
+        }
+
+        public Tile getTile()
+        {
+            return tile;
+        }
+
+        public string getMod()
+        {
+            return modifier;
+        }
+
+        public bool checkEmpty()
+        {
+            return isEmpty;
+        }
+
+        public int getX()
+        {
+            return boardLocationX;
+        }
+
+        public int getY()
+        {
+            return boardLocationY;
         }
 
         public void SetTile(Tile tile)
