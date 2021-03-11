@@ -290,6 +290,10 @@ namespace ScrabbleNamespace
             return list;
         }
 
+        public void OnClick() {
+
+        }
+
     }
 
 
