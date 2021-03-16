@@ -102,10 +102,10 @@ namespace ScrabbleNamespace
         }
 
         private void OnMouseUp() {
-            if (beingDragged) {
-                transform.position = new Vector2(0, 0);
-                beingDragged = false;
-            }
+            //if (beingDragged) {
+            //    transform.position = new Vector2(0, 0);
+            //    beingDragged = false;
+            //}
         }
     }
 }
