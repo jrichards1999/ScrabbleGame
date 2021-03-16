@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class DrawTileButtonHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public void SpawnTile() {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
