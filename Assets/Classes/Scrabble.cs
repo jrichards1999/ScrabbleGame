@@ -25,10 +25,22 @@ namespace ScrabbleNamespace
 
             //test implementation which puts [t][e][s][t] in the top left of the board game and scores with easy to follow values
             //passed each type of modifier to verify scoring works
-            BoardSpaces[0, 0] = new BoardSpace(new Tile('T', false), "2W", false, 0, 0);
-            BoardSpaces[0, 1] = new BoardSpace(new Tile('E', false), "3W", false, 0, 1);
-            BoardSpaces[0, 2] = new BoardSpace(new Tile('S', false), "2L", false, 0, 2);
-            BoardSpaces[0, 3] = new BoardSpace(new Tile('T', false), "3L", false, 0, 3);
+            BoardSpaces[0, 4] = new BoardSpace(new Tile('T', false), "3L", false, 0, 4);//T  of Test
+
+            BoardSpaces[1, 0] = new BoardSpace(new Tile('A', false), "2W", false, 1, 0);
+            BoardSpaces[1, 1] = new BoardSpace(new Tile('P', false), "3W", false, 1, 1);
+            BoardSpaces[1, 2] = new BoardSpace(new Tile('P', false), "2L", false, 1, 2);
+            BoardSpaces[1, 3] = new BoardSpace(new Tile('L', false), "3L", false, 1, 3);
+            BoardSpaces[1, 4] = new BoardSpace(new Tile('E', false), "3L", false, 1, 4);//E of Test (already played)
+
+            BoardSpaces[2, 4] = new BoardSpace(new Tile('S', false), "3L", false, 2, 4);//S of Test and So
+            BoardSpaces[2, 5] = new BoardSpace(new Tile('O', false), "3L", false, 2, 5);//O of So
+
+            BoardSpaces[3, 4] = new BoardSpace(new Tile('T', false), "3L", false, 3, 4);//T of Test
+            BoardSpaces[3, 5] = new BoardSpace(new Tile('R', false), "3L", false, 3, 5);
+            BoardSpaces[3, 6] = new BoardSpace(new Tile('A', false), "3L", false, 3, 6);
+            BoardSpaces[3, 7] = new BoardSpace(new Tile('P', false), "3L", false, 3, 7);
+
         }
 
 
@@ -176,19 +188,121 @@ namespace ScrabbleNamespace
 
         }
 
+        static bool validTurn(List<BoardSpace> spacesPlayed)
+        {
+            NetSpell.SpellChecker.Dictionary.WordDictionary oDict = new NetSpell.SpellChecker.Dictionary.WordDictionary();
+
+            oDict.DictionaryFile = "en-US.dic";
+            oDict.Initialize();
+
+            List<String> wordsPlayed = new List<String>();
+            List<BoardSpace> spacesAdded = new List<BoardSpace>();
+
+            foreach (BoardSpace space in spacesPlayed)
+            {
+                string word = "";
+                word += space.getTile().getLetter();
+
+                //Check Above and Below
+                if ((space.getX() != 0 && BoardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && BoardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
+                {
+                    int xIndex = space.getX();
+                    int yIndex = space.getY();
+                    //Above
+                    while (xIndex != 0 && BoardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex - 1, yIndex], spacesAdded))
+                    {
+                        spacesAdded.Add(BoardSpaces[xIndex - 1, yIndex]);
+                        word = BoardSpaces[xIndex - 1, yIndex].getTile().getLetter() + word;
+                        Console.WriteLine(word);
+
+                        xIndex--;
+                    }
+                    //Reset to original position
+                    xIndex = space.getX();
+                    yIndex = space.getY();
+
+                    //Below
+                    while (xIndex != 15 && BoardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex + 1, yIndex], spacesAdded))
+                    {
+                        spacesAdded.Add(BoardSpaces[xIndex + 1, yIndex]);
+                        word = word + BoardSpaces[xIndex + 1, yIndex].getTile().getLetter();
+                        Console.WriteLine(word);
+
+                        xIndex++;
+                    }
+
+                    if (word.Length > 1)
+                    {
+                        wordsPlayed.Add(word);
+                    }
+                }
+
+                word = "";
+                word += space.getTile().getLetter();
+                //Check Left and Right Space 
+                if ((space.getY() != 0 && BoardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && BoardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
+                {
+                    int xIndex = space.getX();
+                    int yIndex = space.getY();
+                    //Left
+                    while (yIndex != 0 && BoardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex - 1], spacesAdded))
+                    {
+                        spacesAdded.Add(BoardSpaces[xIndex, yIndex - 1]);
+                        word = BoardSpaces[xIndex, yIndex - 1].getTile().getLetter() + word;
+                        Console.WriteLine(word);
+
+                        yIndex--;
+                    }
+                    //Reset to original position
+                    xIndex = space.getX();
+                    yIndex = space.getY();
+
+                    //Right
+                    while (yIndex != 15 && BoardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex + 1], spacesAdded))
+                    {
+                        spacesAdded.Add(BoardSpaces[xIndex, yIndex + 1]);
+                        word = word + BoardSpaces[xIndex, yIndex + 1].getTile().getLetter();
+                        Console.WriteLine(word);
+
+                        yIndex++;
+                    }
+
+                    if (word.Length > 1)
+                    {
+                        wordsPlayed.Add(word);
+                    }
+                }
+
+            }
+
+            foreach (string word in wordsPlayed)
+            {
+                string wordToCheck = word;
+                NetSpell.SpellChecker.Spelling oSpell = new NetSpell.SpellChecker.Spelling();
+
+                oSpell.Dictionary = oDict;
+                if (!oSpell.TestWord(wordToCheck))
+                {
+                    //FAKE WORD DETECTED - RETURN FALSE AND NOTIFY PLAYER THEIR TURN IS NO GOOD
+                    return false;
+                }
+            }
+
+
+            return true;//ALL WORDS ARE GOOD
+        }
+
         static void Main(string[] args)
         {
             populateBoard();
 
             //Create list with the aforementioned [t][e][s][t] BoardSpaces
             List<BoardSpace> testList = new List<BoardSpace>();
-            testList.Add(BoardSpaces[0, 0]);
-            testList.Add(BoardSpaces[0, 1]);
-            testList.Add(BoardSpaces[0, 2]);
-            testList.Add(BoardSpaces[0, 3]);
+            testList.Add(BoardSpaces[0, 4]);
+            testList.Add(BoardSpaces[2, 4]);
 
             //Write total to console
-            Console.WriteLine(calculateScore(testList));
+            Console.WriteLine(validTurn(testList));
             Console.Read();
         }
 

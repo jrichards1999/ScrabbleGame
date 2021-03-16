@@ -67,6 +67,11 @@ namespace ScrabbleNamespace
             return pointVal;
         }
 
+        public char getLetter()
+        {
+            return letter;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
