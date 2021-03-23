@@ -66,35 +66,37 @@ namespace ScrabbleNamespace
         static int calculateScore(List<BoardSpace> spacesPlayed)
         {
             int total = 0;
+            int wordTotal = 0;
             string modifiers = "";
-            List<BoardSpace> spacesAdded = null;
+            List<BoardSpace> spacesAdded = new List<BoardSpace>();
+            List<BoardSpace> countedPlays = new List<BoardSpace>();
 
             foreach (BoardSpace space in spacesPlayed)
             {
-                //Check if the space played has double or triple letter modifier - add that to the total
-                //Else add the unmodified value to the total
-                if (space.getMod() == "2L")
+                //Check Above and Below
+                if ((space.getX() != 0 && BoardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && BoardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
                 {
-                    total += space.getTile().getVal() * 2;
-                }
-                else if (space.getMod() == "3L")
-                {
-                    total += space.getTile().getVal() * 3;
-                }
-                else
-                {
-                    total += space.getTile().getVal();
-                }
+                    //Add all modifiers, although this string will only be checked later for double or triple word
+                    modifiers += space.getMod();
 
-                //Add all modifiers, although this string will only be checked later for double or triple word
-                modifiers += space.getMod();
-
-                //Check Above Current Tile
-                if (space.getX() != 0 && BoardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false)
-                {
+                    //Check if the space played has double or triple letter modifier - add that to the total
+                    //Else add the unmodified value to the total
+                    if (space.getMod() == "2L")
+                    {
+                        total += space.getTile().getVal() * 2;
+                    }
+                    else if (space.getMod() == "3L")
+                    {
+                        total += space.getTile().getVal() * 3;
+                    }
+                    else
+                    {
+                        total += space.getTile().getVal();
+                    }
+                    countedPlays.Add(space);
                     int xIndex = space.getX();
                     int yIndex = space.getY();
-
+                    //Above
                     while (xIndex != 0 && BoardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex - 1, yIndex], spacesAdded))
                     {
                         if (!spacesPlayed.Contains(BoardSpaces[xIndex - 1, yIndex]))
@@ -109,13 +111,11 @@ namespace ScrabbleNamespace
 
                         xIndex--;
                     }
-                }
-                //Check Below Space
-                if (space.getX() != 15 && BoardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false)
-                {
-                    int xIndex = space.getX();
-                    int yIndex = space.getY();
+                    //Reset to original position
+                    xIndex = space.getX();
+                    yIndex = space.getY();
 
+                    //Below
                     while (xIndex != 15 && BoardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex + 1, yIndex], spacesAdded))
                     {
                         if (!spacesPlayed.Contains(BoardSpaces[xIndex + 1, yIndex]))
@@ -130,13 +130,57 @@ namespace ScrabbleNamespace
 
                         xIndex++;
                     }
+
                 }
-                //Check Left of Space 
-                if (space.getY() != 0 && BoardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false)
+            }
+
+            //Add all multiplicative modifiers to total and return
+            if (modifiers.Contains("2W"))
+            {
+                total = total * 2;
+            }
+            if (modifiers.Contains("3W"))
+            {
+                total = total * 3;
+            }
+
+            modifiers = "";
+            wordTotal += total;
+            total = 0;
+
+            foreach (BoardSpace space in spacesPlayed)
+            {
+                //Check Left and Right Space 
+                if ((space.getY() != 0 && BoardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && BoardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
                 {
+                    //Add the modifier when checking left and right only if that modifier wasn't already used - otherwise just add the value of the tile
+                    if (!countedPlays.Contains(space))
+                    {
+                        //Add all modifiers, although this string will only be checked later for double or triple word
+                        modifiers += space.getMod();
+
+                        //Check if the space played has double or triple letter modifier - add that to the total
+                        //Else add the unmodified value to the total
+                        if (space.getMod() == "2L")
+                        {
+                            total += space.getTile().getVal() * 2;
+                        }
+                        else if (space.getMod() == "3L")
+                        {
+                            total += space.getTile().getVal() * 3;
+                        }
+                        else
+                        {
+                            total += space.getTile().getVal();
+                        }
+                    }
+                    else
+                    {
+                        total += space.getTile().getVal();
+                    }
                     int xIndex = space.getX();
                     int yIndex = space.getY();
-
+                    //Left
                     while (yIndex != 0 && BoardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex - 1], spacesAdded))
                     {
                         if (!spacesPlayed.Contains(BoardSpaces[xIndex, yIndex - 1]))
@@ -151,12 +195,11 @@ namespace ScrabbleNamespace
 
                         yIndex--;
                     }
-                }
-                //Check Right of Space
-                if (space.getY() != 15 && BoardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false)
-                {
-                    int xIndex = space.getX();
-                    int yIndex = space.getY();
+                    //Reset to original position
+                    xIndex = space.getX();
+                    yIndex = space.getY();
+
+                    //Right
                     while (yIndex != 15 && BoardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex + 1], spacesAdded))
                     {
                         if (!spacesPlayed.Contains(BoardSpaces[xIndex, yIndex + 1]))
@@ -184,7 +227,9 @@ namespace ScrabbleNamespace
                 total = total * 3;
             }
 
-            return total;
+            wordTotal += total;
+
+            return wordTotal;
 
         }
 
