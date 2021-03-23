@@ -3,23 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawTileButtonHandler : MonoBehaviour {
-    public GameObject[] MyPrefabs;
+namespace ScrabbleNamespace {
 
-    public void Start() {
-        MyPrefabs = Resources.LoadAll<GameObject>("Prefabs");
-    }
+    public class DrawTileButtonHandler : MonoBehaviour {
 
-    public void Update() {
+        public void Start() {
+            
+        }
 
-    }
+        public void Update() {
 
-    public void OnClick() {
-        Vector2 position = new Vector2(-6, 3);
-        var r = new System.Random();
-        int n = r.Next(0, 25);
+        }
 
-        var MyPrefab = MyPrefabs[n];
-        Instantiate(MyPrefab, position, Quaternion.identity);
+        public void OnClick() {
+
+            if (Scrabble.tilePile.Count != 0) {
+                char c = Scrabble.tilePile[0].getLetter();
+                Scrabble.tilePile.RemoveAt(0);
+                Vector2 position = new Vector2(-6, 3);
+
+                string path = "Prefabs\\" + c;
+                var MyPrefab = Resources.Load<GameObject>(path);
+                Instantiate(MyPrefab, position, Quaternion.identity);
+            }
+        }
     }
 }
+
