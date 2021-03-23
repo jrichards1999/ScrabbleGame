@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,10 +15,12 @@ public class DrawTileButtonHandler : MonoBehaviour
         
     }
 
-    public void ButtonClicked() {
-        //GameObject newObject = Resources.Load("Assets/Prefabs/A") as GameObject;
+    public void OnClick() {
         Vector2 position = new Vector2(0, 0);
-        var MyPrefab = MyPrefabs[1];
+        var r = new System.Random();
+        int n = r.Next(0, 25);
+
+        var MyPrefab = MyPrefabs[n];
         Instantiate(MyPrefab, position, Quaternion.identity);
     }
 }
