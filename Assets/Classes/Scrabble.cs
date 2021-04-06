@@ -7,7 +7,9 @@ namespace ScrabbleNamespace
 {
     public class Scrabble : MonoBehaviour
     {
-        public List<Tile> tilePile;
+        //Player p1 = new Player();
+        //Player p2 = new Player();
+        public static List<Tile> tilePile;
 
         static BoardSpace[,] BoardSpaces = new BoardSpace[15, 15];
 
