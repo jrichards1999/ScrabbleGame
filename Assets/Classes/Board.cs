@@ -5,27 +5,53 @@ using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class Board : MonoBehaviour
+    public static class Board
     {
-        BoardSpace[,] boardSpaces = new BoardSpace[15,15];
+        //public static Board board = null;
 
-        BoardSpace[,] previousBoardState = new BoardSpace[15,15];
+        static BoardSpace[,] boardSpaces = new BoardSpace[15,15];
+
+        static BoardSpace[,] previousBoardState = new BoardSpace[15,15];
 
         /// <summary>
         /// Will create a board that contains tiles quickly for testing purposes.
         /// </summary>
-        void CreateSampleBoard()
+        static void CreateSampleBoard()
         {
             throw new Exception("Todo");
         }
 
-        void PlaceTile(char c, int x, int y)
+        static public bool RemoveTile(Tile tile)
         {
-            boardSpaces[x, y].SetTile(new Tile(c));
+            for(int x = 0; x < 15; x++)
+            {
+                for(int y = 0; y < 15; y++)
+                {
+                    if(tile == boardSpaces[x,y].getTile())
+                    {
+                        boardSpaces[x, y] = new BoardSpace();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        static public bool PlaceTile(Tile tile, int x, int y)
+        {
+            if(boardSpaces[x, y].IsEmpty)
+            {
+                boardSpaces[x, y].SetTile(tile);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // Start is called before the first frame update
-        void Start()
+        public static void Start()
         {
             for(int x = 0; x < 15; x++)
             {
@@ -36,10 +62,5 @@ namespace ScrabbleNamespace
             }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

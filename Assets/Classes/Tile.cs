@@ -15,9 +15,22 @@ namespace ScrabbleNamespace
 
         private int pointVal;
         private char letter;
-
         private Camera myMainCamera;
         private bool beingDragged = false;
+
+
+        public char Letter
+        {
+            get
+            {
+                return letter;
+            }
+            set
+            {
+                letter = value;
+                pointVal = GetPointValue(value);
+            }
+        }
 
         int GetPointValue(char c)
         {
@@ -59,7 +72,7 @@ namespace ScrabbleNamespace
                 pointVal = GetPointValue(character);
             else
                 pointVal = 0;
-            letter = character;
+            Letter = character;
         }
 
         public int getVal()
@@ -69,7 +82,7 @@ namespace ScrabbleNamespace
 
         public char getLetter()
         {
-            return letter;
+            return Letter;
         }
 
         // Start is called before the first frame update
@@ -92,7 +105,7 @@ namespace ScrabbleNamespace
             dragPlane.Raycast(camRay, out planeDist);
             offset = transform.position - camRay.GetPoint(planeDist);
 
-
+            Board.RemoveTile(this);
         }
 
         void OnMouseDrag() {
@@ -114,6 +127,8 @@ namespace ScrabbleNamespace
             float width = right - left;
             float sliceWidth = (height / (float)numRows);
 
+            int boardX = -1;
+            int boardY = -1;
 
             bool snapped = false;
             for (int x = 0; x < numRows; x++)
@@ -124,12 +139,14 @@ namespace ScrabbleNamespace
                     //set to regular increment
                     transform.position = new Vector2(left + (sliceWidth * (float)x) + (sliceWidth / 2f), transform.position.y);
                     snapped = true;
+                    boardX = x;
                     break;
                 }
             }
             if(!snapped)
             {
                 transform.position = new Vector2(left + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f), transform.position.y);
+                boardX = 14;
             }
             snapped = false;
             for (int y = 0; y < numRows; y++)
@@ -142,14 +159,19 @@ namespace ScrabbleNamespace
                     float yfloat = bottom + (sliceWidth * (float)y) + (sliceWidth / 2f);
                     transform.position = new Vector2(transform.position.x, yfloat);
                     snapped = true;
+                    boardY = y;
                     break;
                 }
             }
             if (!snapped)
             {
                 transform.position = new Vector2(transform.position.x, bottom + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f));
+                boardY = 14;
                 snapped = false;
             }
+            char letter = this.getLetter();
+            
+            Board.PlaceTile(this, boardX, boardY);
         }
     }
 }

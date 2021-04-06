@@ -7,8 +7,6 @@ namespace ScrabbleNamespace
 {
     public class Scrabble : MonoBehaviour
     {
-        Player p1 = new Player();
-        Player p2 = new Player();
         public List<Tile> tilePile;
 
         static BoardSpace[,] BoardSpaces = new BoardSpace[15, 15];
@@ -355,6 +353,7 @@ namespace ScrabbleNamespace
         void Start()
         {
             tilePile = initializeTilePile();
+            Board.Start();
         }
 
         // Update is called once per frame

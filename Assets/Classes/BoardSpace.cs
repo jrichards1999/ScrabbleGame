@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class BoardSpace : MonoBehaviour
+    public class BoardSpace
     {
         private Tile tile;
         private string modifier;
-        private bool isEmpty;
+        public bool IsEmpty = true;
         private int boardLocationX;
         private int boardLocationY;
 
@@ -16,7 +16,7 @@ namespace ScrabbleNamespace
         {
             tile = null;
             modifier = "";
-            isEmpty = true;
+            IsEmpty = true;
             boardLocationX = 0;
             boardLocationY = 0;
         }
@@ -25,7 +25,7 @@ namespace ScrabbleNamespace
         {
             tile = tileObject;
             modifier = modifierString;
-            isEmpty = empty;
+            IsEmpty = empty;
             boardLocationX = locationX;
             boardLocationY = locationY;
         }
@@ -42,7 +42,7 @@ namespace ScrabbleNamespace
 
         public bool checkEmpty()
         {
-            return isEmpty;
+            return IsEmpty;
         }
 
         public int getX()
@@ -58,18 +58,7 @@ namespace ScrabbleNamespace
         public void SetTile(Tile tile)
         {
             this.tile = tile;
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            this.IsEmpty = false;
         }
     }
 }
