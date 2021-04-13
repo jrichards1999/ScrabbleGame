@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class Tile : MonoBehaviour
+    public class Tile : NetworkBehaviour
     {
         // The plane the object is currently being dragged on
         private Plane dragPlane;

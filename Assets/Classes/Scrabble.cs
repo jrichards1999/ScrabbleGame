@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class Scrabble : MonoBehaviour
+    public class Scrabble : NetworkBehaviour
     {
         //Player p1 = new Player();
         //Player p2 = new Player();
