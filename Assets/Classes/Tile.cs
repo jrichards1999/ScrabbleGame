@@ -15,6 +15,7 @@ namespace ScrabbleNamespace
 
         private int pointVal;
         private char letter;
+        private int userListIndex = -1;
         private Camera myMainCamera;
         private bool beingDragged = false;
 
@@ -29,6 +30,15 @@ namespace ScrabbleNamespace
             {
                 letter = value;
                 pointVal = GetPointValue(value);
+            }
+        }
+
+        public int UserListIndex {
+            get {
+                return userListIndex;
+            }
+            set {
+                userListIndex = value;
             }
         }
 
@@ -170,7 +180,7 @@ namespace ScrabbleNamespace
                 snapped = false;
             }
             char letter = this.getLetter();
-            
+
             Board.PlaceTile(this, boardX, boardY);
         }
     }
