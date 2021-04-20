@@ -105,12 +105,12 @@ namespace ScrabbleNamespace {
                     var v = (Tile)go.GetComponent(typeof(Tile));
                     v.Letter = c;
                 }
-                if(Scrabble.PlayerTurn == "Player1"){
-                    Scrabble.PlayerTurn = "Player2";
-                }
-                else {
-                    Scrabble.PlayerTurn = "Player1";
-                }
+                //if(Scrabble.PlayerTurn == "Player1"){
+                //    Scrabble.PlayerTurn = "Player2";
+                //}
+                //else {
+                //    Scrabble.PlayerTurn = "Player1";
+                //}
             }
         }
     }
