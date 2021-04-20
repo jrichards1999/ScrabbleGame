@@ -10,6 +10,7 @@ namespace ScrabbleNamespace
         //Player p1 = new Player();
         //Player p2 = new Player();
         public static List<Tile> tilePile;
+        public static string PlayerTurn = "Player1";
 
         static BoardSpace[,] BoardSpaces = new BoardSpace[15, 15];
 
