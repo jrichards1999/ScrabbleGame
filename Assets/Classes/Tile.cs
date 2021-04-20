@@ -16,6 +16,7 @@ namespace ScrabbleNamespace
         private int pointVal;
         private char letter;
         private Camera myMainCamera;
+        private bool locked = false;
         private bool beingDragged = false;
 
 
@@ -66,6 +67,10 @@ namespace ScrabbleNamespace
             }
         }
 
+        public void Lock()
+        {
+            this.locked = true;
+        }
         public Tile(char character, bool blank = false)
         {
             if (!blank)
@@ -96,82 +101,94 @@ namespace ScrabbleNamespace
         {
         }
 
-        void OnMouseDown() {
-            beingDragged = true;
-            dragPlane = new Plane(myMainCamera.transform.forward, transform.position);
-            Ray camRay = myMainCamera.ScreenPointToRay(Input.mousePosition);
+        void OnMouseDown()
+        {
+            if (!locked)
+            {
+                beingDragged = true;
+                dragPlane = new Plane(myMainCamera.transform.forward, transform.position);
+                Ray camRay = myMainCamera.ScreenPointToRay(Input.mousePosition);
 
-            float planeDist;
-            dragPlane.Raycast(camRay, out planeDist);
-            offset = transform.position - camRay.GetPoint(planeDist);
+                float planeDist;
+                dragPlane.Raycast(camRay, out planeDist);
+                offset = transform.position - camRay.GetPoint(planeDist);
 
-            Board.RemoveTile(this);
+                Board.RemoveTile(this);
+            }
         }
 
-        void OnMouseDrag() {
-            Ray camRay = myMainCamera.ScreenPointToRay(Input.mousePosition);
+        void OnMouseDrag()
+        {
+            if (!locked)
+            {
+                Ray camRay = myMainCamera.ScreenPointToRay(Input.mousePosition);
 
-            float planeDist;
-            dragPlane.Raycast(camRay, out planeDist);
-            transform.position = camRay.GetPoint(planeDist) + offset;
+                float planeDist;
+                dragPlane.Raycast(camRay, out planeDist);
+                transform.position = camRay.GetPoint(planeDist) + offset;
+            }
         }
 
-        private void OnMouseUp() {
-            //get reference to board, get bounds of top left right bottom, use to init the values below.
-            float top = 4.0f;
-            float left = -4.0f;
-            float bottom = -4.0f;
-            float right = 4.0f;
-            int numRows = 15;
-            float height = top - bottom;
-            float width = right - left;
-            float sliceWidth = (height / (float)numRows);
+        private void OnMouseUp()
+        {
+            if (!locked)
+            {
+                //get reference to board, get bounds of top left right bottom, use to init the values below.
+                float top = 4.0f;
+                float left = -4.0f;
+                float bottom = -4.0f;
+                float right = 4.0f;
+                int numRows = 15;
+                float height = top - bottom;
+                float width = right - left;
+                float sliceWidth = (height / (float)numRows);
 
-            int boardX = -1;
-            int boardY = -1;
+                int boardX = -1;
+                int boardY = -1;
 
-            bool snapped = false;
-            for (int x = 0; x < numRows; x++)
-            {
-                float sliceCiel = (sliceWidth * (float)(x + 1)) + left;
-                if(transform.position.x < sliceCiel)
+                bool snapped = false;
+                for (int x = 0; x < numRows; x++)
                 {
-                    //set to regular increment
-                    transform.position = new Vector2(left + (sliceWidth * (float)x) + (sliceWidth / 2f), transform.position.y);
-                    snapped = true;
-                    boardX = x;
-                    break;
+                    float sliceCiel = (sliceWidth * (float)(x + 1)) + left;
+                    if (transform.position.x < sliceCiel)
+                    {
+                        //set to regular increment
+                        transform.position = new Vector2(left + (sliceWidth * (float)x) + (sliceWidth / 2f), transform.position.y);
+                        snapped = true;
+                        boardX = x;
+                        break;
+                    }
                 }
-            }
-            if(!snapped)
-            {
-                transform.position = new Vector2(left + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f), transform.position.y);
-                boardX = 14;
-            }
-            snapped = false;
-            for (int y = 0; y < numRows; y++)
-            {
-                float sliceFloor = (sliceWidth * (float)y) + bottom;
-                float sliceCiel = (sliceWidth * (float)(y + 1)) + bottom;
-                if (transform.position.y < sliceCiel)
+                if (!snapped)
                 {
-                    //set to regular increment
-                    float yfloat = bottom + (sliceWidth * (float)y) + (sliceWidth / 2f);
-                    transform.position = new Vector2(transform.position.x, yfloat);
-                    snapped = true;
-                    boardY = y;
-                    break;
+                    transform.position = new Vector2(left + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f), transform.position.y);
+                    boardX = 14;
                 }
-            }
-            if (!snapped)
-            {
-                transform.position = new Vector2(transform.position.x, bottom + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f));
-                boardY = 14;
                 snapped = false;
+                for (int y = 0; y < numRows; y++)
+                {
+                    float sliceFloor = (sliceWidth * (float)y) + bottom;
+                    float sliceCiel = (sliceWidth * (float)(y + 1)) + bottom;
+                    if (transform.position.y < sliceCiel)
+                    {
+                        //set to regular increment
+                        float yfloat = bottom + (sliceWidth * (float)y) + (sliceWidth / 2f);
+                        transform.position = new Vector2(transform.position.x, yfloat);
+                        snapped = true;
+                        boardY = y;
+                        break;
+                    }
+                }
+                if (!snapped)
+                {
+                    transform.position = new Vector2(transform.position.x, bottom + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f));
+                    boardY = 14;
+                    snapped = false;
+                }
+                char letter = this.getLetter();
+
+                Board.PlaceTile(this, boardX, boardY);
             }
-            char letter = this.getLetter();
-            
-            Board.PlaceTile(this, boardX, boardY);
         }
     }
 }

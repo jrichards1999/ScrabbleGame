@@ -11,7 +11,7 @@ namespace ScrabbleNamespace
 
         public static BoardSpace[,] boardSpaces = new BoardSpace[15, 15];
 
-        static BoardSpace[,] previousBoardState = new BoardSpace[15, 15];
+        static BoardSpace[,] lockedBoardSpaces = new BoardSpace[15, 15];
 
         static List<BoardSpace> spacesPlayed = new List<BoardSpace>();
 
@@ -29,10 +29,12 @@ namespace ScrabbleNamespace
             {
                 for (int y = 0; y < 15; y++)
                 {
-                    if (tile == boardSpaces[x, y].getTile())
+                    
+                    
+                    if (!boardSpaces[x,y].IsEmpty && tile == boardSpaces[x, y].getTile())
                     {
-                        spacesPlayed.Remove(boardSpaces[x, y]);
                         boardSpaces[x, y].Clear();
+                        spacesPlayed.Remove(boardSpaces[x, y]);
                         return true;
                     }
                 }
@@ -57,7 +59,26 @@ namespace ScrabbleNamespace
         static public bool SubmitTiles()
         {
             bool validTurn = Scrabble.validTurn(spacesPlayed);
-            int score = Scrabble.calculateScore(spacesPlayed);
+            if (validTurn)
+            {
+                int score = Scrabble.calculateScore(spacesPlayed);
+                for (int x = 0; x < 15; x++)
+                {
+                    for (int y = 0; y < 15; y++)
+                    {
+                        if(!boardSpaces[x,y].IsEmpty)
+                        {
+                            boardSpaces[x, y].getTile().Lock();
+                            lockedBoardSpaces[x, y] = boardSpaces[x, y];
+                        }
+                    }
+                }
+
+                spacesPlayed.Clear();
+            }
+            
+
+
             return validTurn;
         }
 

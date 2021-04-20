@@ -233,6 +233,8 @@ namespace ScrabbleNamespace
 
         public static bool validTurn(List<BoardSpace> spacesPlayed)
         {
+            if (spacesPlayed.Count < 1)
+                return false;
             NetSpell.SpellChecker.Dictionary.WordDictionary oDict = new NetSpell.SpellChecker.Dictionary.WordDictionary();
 
             oDict.DictionaryFile = @"Assets\Packages\NetSpell.2.1.7\dic\en-US.dic";
