@@ -11,37 +11,35 @@ namespace ScrabbleNamespace
         //Player p2 = new Player();
         public static List<Tile> tilePile;
 
-        static BoardSpace[,] BoardSpaces = new BoardSpace[15, 15];
+        //static void populateBoard()
+        //{
+        //    for (int i = 0; i < 15; i++)
+        //    {
+        //        for (int j = 0; j < 15; j++)
+        //        {
+        //            BoardSpaces[i, j] = new BoardSpace();
+        //        }
+        //    }
 
-        static void populateBoard()
-        {
-            for (int i = 0; i < 15; i++)
-            {
-                for (int j = 0; j < 15; j++)
-                {
-                    BoardSpaces[i, j] = new BoardSpace();
-                }
-            }
+        //    //test implementation which puts [t][e][s][t] in the top left of the board game and scores with easy to follow values
+        //    //passed each type of modifier to verify scoring works
+        //    BoardSpaces[0, 4] = new BoardSpace(new Tile('T', false), "3L", false, 0, 4);//T  of Test
 
-            //test implementation which puts [t][e][s][t] in the top left of the board game and scores with easy to follow values
-            //passed each type of modifier to verify scoring works
-            BoardSpaces[0, 4] = new BoardSpace(new Tile('T', false), "3L", false, 0, 4);//T  of Test
+        //    BoardSpaces[1, 0] = new BoardSpace(new Tile('A', false), "2W", false, 1, 0);
+        //    BoardSpaces[1, 1] = new BoardSpace(new Tile('P', false), "3W", false, 1, 1);
+        //    BoardSpaces[1, 2] = new BoardSpace(new Tile('P', false), "2L", false, 1, 2);
+        //    BoardSpaces[1, 3] = new BoardSpace(new Tile('L', false), "3L", false, 1, 3);
+        //    BoardSpaces[1, 4] = new BoardSpace(new Tile('E', false), "3L", false, 1, 4);//E of Test (already played)
 
-            BoardSpaces[1, 0] = new BoardSpace(new Tile('A', false), "2W", false, 1, 0);
-            BoardSpaces[1, 1] = new BoardSpace(new Tile('P', false), "3W", false, 1, 1);
-            BoardSpaces[1, 2] = new BoardSpace(new Tile('P', false), "2L", false, 1, 2);
-            BoardSpaces[1, 3] = new BoardSpace(new Tile('L', false), "3L", false, 1, 3);
-            BoardSpaces[1, 4] = new BoardSpace(new Tile('E', false), "3L", false, 1, 4);//E of Test (already played)
+        //    BoardSpaces[2, 4] = new BoardSpace(new Tile('S', false), "3L", false, 2, 4);//S of Test and So
+        //    BoardSpaces[2, 5] = new BoardSpace(new Tile('O', false), "3L", false, 2, 5);//O of So
 
-            BoardSpaces[2, 4] = new BoardSpace(new Tile('S', false), "3L", false, 2, 4);//S of Test and So
-            BoardSpaces[2, 5] = new BoardSpace(new Tile('O', false), "3L", false, 2, 5);//O of So
+        //    BoardSpaces[3, 4] = new BoardSpace(new Tile('T', false), "3L", false, 3, 4);//T of Test
+        //    BoardSpaces[3, 5] = new BoardSpace(new Tile('R', false), "3L", false, 3, 5);
+        //    BoardSpaces[3, 6] = new BoardSpace(new Tile('A', false), "3L", false, 3, 6);
+        //    BoardSpaces[3, 7] = new BoardSpace(new Tile('P', false), "3L", false, 3, 7);
 
-            BoardSpaces[3, 4] = new BoardSpace(new Tile('T', false), "3L", false, 3, 4);//T of Test
-            BoardSpaces[3, 5] = new BoardSpace(new Tile('R', false), "3L", false, 3, 5);
-            BoardSpaces[3, 6] = new BoardSpace(new Tile('A', false), "3L", false, 3, 6);
-            BoardSpaces[3, 7] = new BoardSpace(new Tile('P', false), "3L", false, 3, 7);
-
-        }
+        //}
 
 
         //checkListForMatch - pass a space and check a list of spaces for that passed space, even if the list is null
@@ -63,7 +61,7 @@ namespace ScrabbleNamespace
         //parameters -
         //spacesPlayed: list of BoardSpace objects to let the algorithm know which spaces got played this turn
         //returns: an integer totaling the spaces played, as well as all the confirmed viable Tiles up, down, left and right of each of those spaces played
-        static int calculateScore(List<BoardSpace> spacesPlayed)
+        public static int calculateScore(List<BoardSpace> spacesPlayed)
         {
             int total = 0;
             int wordTotal = 0;
@@ -74,7 +72,7 @@ namespace ScrabbleNamespace
             foreach (BoardSpace space in spacesPlayed)
             {
                 //Check Above and Below
-                if ((space.getX() != 0 && BoardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && BoardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
+                if ((space.getX() != 0 && Board.boardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && Board.boardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
                 {
                     //Add all modifiers, although this string will only be checked later for double or triple word
                     modifiers += space.getMod();
@@ -97,12 +95,12 @@ namespace ScrabbleNamespace
                     int xIndex = space.getX();
                     int yIndex = space.getY();
                     //Above
-                    while (xIndex != 0 && BoardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex - 1, yIndex], spacesAdded))
+                    while (xIndex != 0 && Board.boardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex - 1, yIndex], spacesAdded))
                     {
-                        if (!spacesPlayed.Contains(BoardSpaces[xIndex - 1, yIndex]))
+                        if (!spacesPlayed.Contains(Board.boardSpaces[xIndex - 1, yIndex]))
                         {
-                            total += BoardSpaces[xIndex - 1, yIndex].getTile().getVal();
-                            spacesAdded.Add(BoardSpaces[xIndex - 1, yIndex]);
+                            total += Board.boardSpaces[xIndex - 1, yIndex].getTile().getVal();
+                            spacesAdded.Add(Board.boardSpaces[xIndex - 1, yIndex]);
                         }
                         else
                         {
@@ -116,12 +114,12 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Below
-                    while (xIndex != 15 && BoardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex + 1, yIndex], spacesAdded))
+                    while (xIndex != 15 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
                     {
-                        if (!spacesPlayed.Contains(BoardSpaces[xIndex + 1, yIndex]))
+                        if (!spacesPlayed.Contains(Board.boardSpaces[xIndex + 1, yIndex]))
                         {
-                            total += BoardSpaces[xIndex + 1, yIndex].getTile().getVal();
-                            spacesAdded.Add(BoardSpaces[xIndex + 1, yIndex]);
+                            total += Board.boardSpaces[xIndex + 1, yIndex].getTile().getVal();
+                            spacesAdded.Add(Board.boardSpaces[xIndex + 1, yIndex]);
                         }
                         else
                         {
@@ -151,7 +149,7 @@ namespace ScrabbleNamespace
             foreach (BoardSpace space in spacesPlayed)
             {
                 //Check Left and Right Space 
-                if ((space.getY() != 0 && BoardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && BoardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
+                if ((space.getY() != 0 && Board.boardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && Board.boardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
                 {
                     //Add the modifier when checking left and right only if that modifier wasn't already used - otherwise just add the value of the tile
                     if (!countedPlays.Contains(space))
@@ -181,12 +179,12 @@ namespace ScrabbleNamespace
                     int xIndex = space.getX();
                     int yIndex = space.getY();
                     //Left
-                    while (yIndex != 0 && BoardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex - 1], spacesAdded))
+                    while (yIndex != 0 && Board.boardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex - 1], spacesAdded))
                     {
-                        if (!spacesPlayed.Contains(BoardSpaces[xIndex, yIndex - 1]))
+                        if (!spacesPlayed.Contains(Board.boardSpaces[xIndex, yIndex - 1]))
                         {
-                            total += BoardSpaces[xIndex, yIndex - 1].getTile().getVal();
-                            spacesAdded.Add(BoardSpaces[xIndex, yIndex - 1]);
+                            total += Board.boardSpaces[xIndex, yIndex - 1].getTile().getVal();
+                            spacesAdded.Add(Board.boardSpaces[xIndex, yIndex - 1]);
                         }
                         else
                         {
@@ -200,12 +198,12 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Right
-                    while (yIndex != 15 && BoardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex + 1], spacesAdded))
+                    while (yIndex != 15 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
                     {
-                        if (!spacesPlayed.Contains(BoardSpaces[xIndex, yIndex + 1]))
+                        if (!spacesPlayed.Contains(Board.boardSpaces[xIndex, yIndex + 1]))
                         {
-                            total += BoardSpaces[xIndex, yIndex + 1].getTile().getVal();
-                            spacesAdded.Add(BoardSpaces[xIndex, yIndex + 1]);
+                            total += Board.boardSpaces[xIndex, yIndex + 1].getTile().getVal();
+                            spacesAdded.Add(Board.boardSpaces[xIndex, yIndex + 1]);
                         }
                         else
                         {
@@ -233,11 +231,11 @@ namespace ScrabbleNamespace
 
         }
 
-        static bool validTurn(List<BoardSpace> spacesPlayed)
+        public static bool validTurn(List<BoardSpace> spacesPlayed)
         {
             NetSpell.SpellChecker.Dictionary.WordDictionary oDict = new NetSpell.SpellChecker.Dictionary.WordDictionary();
 
-            oDict.DictionaryFile = "en-US.dic";
+            oDict.DictionaryFile = @"Assets\Packages\NetSpell.2.1.7\dic\en-US.dic";
             oDict.Initialize();
 
             List<String> wordsPlayed = new List<String>();
@@ -249,15 +247,15 @@ namespace ScrabbleNamespace
                 word += space.getTile().getLetter();
 
                 //Check Above and Below
-                if ((space.getX() != 0 && BoardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && BoardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
+                if ((space.getX() != 0 && Board.boardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && Board.boardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
                 {
                     int xIndex = space.getX();
                     int yIndex = space.getY();
                     //Above
-                    while (xIndex != 0 && BoardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex - 1, yIndex], spacesAdded))
+                    while (xIndex != 0 && Board.boardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex - 1, yIndex], spacesAdded))
                     {
-                        spacesAdded.Add(BoardSpaces[xIndex - 1, yIndex]);
-                        word = BoardSpaces[xIndex - 1, yIndex].getTile().getLetter() + word;
+                        spacesAdded.Add(Board.boardSpaces[xIndex - 1, yIndex]);
+                        word = Board.boardSpaces[xIndex - 1, yIndex].getTile().getLetter() + word;
                         Console.WriteLine(word);
 
                         xIndex--;
@@ -267,10 +265,10 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Below
-                    while (xIndex != 15 && BoardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex + 1, yIndex], spacesAdded))
+                    while (xIndex != 15 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
                     {
-                        spacesAdded.Add(BoardSpaces[xIndex + 1, yIndex]);
-                        word = word + BoardSpaces[xIndex + 1, yIndex].getTile().getLetter();
+                        spacesAdded.Add(Board.boardSpaces[xIndex + 1, yIndex]);
+                        word = word + Board.boardSpaces[xIndex + 1, yIndex].getTile().getLetter();
                         Console.WriteLine(word);
 
                         xIndex++;
@@ -285,15 +283,15 @@ namespace ScrabbleNamespace
                 word = "";
                 word += space.getTile().getLetter();
                 //Check Left and Right Space 
-                if ((space.getY() != 0 && BoardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && BoardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
+                if ((space.getY() != 0 && Board.boardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && Board.boardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
                 {
                     int xIndex = space.getX();
                     int yIndex = space.getY();
                     //Left
-                    while (yIndex != 0 && BoardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex - 1], spacesAdded))
+                    while (yIndex != 0 && Board.boardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex - 1], spacesAdded))
                     {
-                        spacesAdded.Add(BoardSpaces[xIndex, yIndex - 1]);
-                        word = BoardSpaces[xIndex, yIndex - 1].getTile().getLetter() + word;
+                        spacesAdded.Add(Board.boardSpaces[xIndex, yIndex - 1]);
+                        word = Board.boardSpaces[xIndex, yIndex - 1].getTile().getLetter() + word;
                         Console.WriteLine(word);
 
                         yIndex--;
@@ -303,10 +301,10 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Right
-                    while (yIndex != 15 && BoardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(BoardSpaces[xIndex, yIndex + 1], spacesAdded))
+                    while (yIndex != 15 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
                     {
-                        spacesAdded.Add(BoardSpaces[xIndex, yIndex + 1]);
-                        word = word + BoardSpaces[xIndex, yIndex + 1].getTile().getLetter();
+                        spacesAdded.Add(Board.boardSpaces[xIndex, yIndex + 1]);
+                        word = word + Board.boardSpaces[xIndex, yIndex + 1].getTile().getLetter();
                         Console.WriteLine(word);
 
                         yIndex++;
@@ -339,16 +337,6 @@ namespace ScrabbleNamespace
 
         static void Main(string[] args)
         {
-            populateBoard();
-
-            //Create list with the aforementioned [t][e][s][t] BoardSpaces
-            List<BoardSpace> testList = new List<BoardSpace>();
-            testList.Add(BoardSpaces[0, 4]);
-            testList.Add(BoardSpaces[2, 4]);
-
-            //Write total to console
-            Console.WriteLine(validTurn(testList));
-            Console.Read();
         }
 
         // Start is called before the first frame update

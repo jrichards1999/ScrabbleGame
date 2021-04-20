@@ -24,7 +24,9 @@ namespace ScrabbleNamespace {
 
                 string path = "Prefabs\\" + c;
                 var MyPrefab = Resources.Load<GameObject>(path);
-                Instantiate(MyPrefab, position, Quaternion.identity);
+                GameObject go = Instantiate(MyPrefab, position, Quaternion.identity);
+                var v = (Tile)go.GetComponent(typeof(Tile));
+                v.Letter = c;
             }
         }
     }
