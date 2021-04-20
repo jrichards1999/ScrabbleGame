@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class Scrabble : NetworkBehaviour
+    public class Scrabble : MonoBehaviour
     {
         //Player p1 = new Player();
         //Player p2 = new Player();

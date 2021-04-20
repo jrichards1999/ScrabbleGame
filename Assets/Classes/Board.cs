@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class Board : NetworkBehaviour
+    public class Board : MonoBehaviour
     {
         BoardSpace[,] boardSpaces = new BoardSpace[15,15];
 

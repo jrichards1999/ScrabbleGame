@@ -5,7 +5,7 @@ using Mirror;
 
 namespace ScrabbleNamespace
 {
-    public class BoardSpace : NetworkBehaviour
+    public class BoardSpace : MonoBehaviour
     {
         private Tile tile;
         private string modifier;
