@@ -60,6 +60,12 @@ namespace ScrabbleNamespace
             this.tile = tile;
             this.IsEmpty = false;
         }
+
+        public void Clear()
+        {
+            this.tile = null;
+            this.IsEmpty = true;
+        }
     }
 }
 

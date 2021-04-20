@@ -9,9 +9,11 @@ namespace ScrabbleNamespace
     {
         //public static Board board = null;
 
-        static BoardSpace[,] boardSpaces = new BoardSpace[15,15];
+        public static BoardSpace[,] boardSpaces = new BoardSpace[15, 15];
 
-        static BoardSpace[,] previousBoardState = new BoardSpace[15,15];
+        static BoardSpace[,] previousBoardState = new BoardSpace[15, 15];
+
+        static List<BoardSpace> spacesPlayed = new List<BoardSpace>();
 
         /// <summary>
         /// Will create a board that contains tiles quickly for testing purposes.
@@ -23,13 +25,14 @@ namespace ScrabbleNamespace
 
         static public bool RemoveTile(Tile tile)
         {
-            for(int x = 0; x < 15; x++)
+            for (int x = 0; x < 15; x++)
             {
-                for(int y = 0; y < 15; y++)
+                for (int y = 0; y < 15; y++)
                 {
-                    if(tile == boardSpaces[x,y].getTile())
+                    if (tile == boardSpaces[x, y].getTile())
                     {
-                        boardSpaces[x, y] = new BoardSpace();
+                        spacesPlayed.Remove(boardSpaces[x, y]);
+                        boardSpaces[x, y].Clear();
                         return true;
                     }
                 }
@@ -39,9 +42,10 @@ namespace ScrabbleNamespace
 
         static public bool PlaceTile(Tile tile, int x, int y)
         {
-            if(boardSpaces[x, y].IsEmpty)
+            if (boardSpaces[x, y].IsEmpty)
             {
                 boardSpaces[x, y].SetTile(tile);
+                spacesPlayed.Add(boardSpaces[x, y]);
                 return true;
             }
             else
@@ -50,14 +54,168 @@ namespace ScrabbleNamespace
             }
         }
 
+        static public bool SubmitTiles()
+        {
+            bool validTurn = Scrabble.validTurn(spacesPlayed);
+            int score = Scrabble.calculateScore(spacesPlayed);
+            return validTurn;
+        }
+
         // Start is called before the first frame update
         public static void Start()
         {
-            for(int x = 0; x < 15; x++)
+            for (int x = 0; x < 15; x++)
             {
-                for(int y = 0; y < 15; y++)
+                for (int y = 0; y < 15; y++)
                 {
-                    boardSpaces[x, y] = new BoardSpace();
+                    //triple words
+                    if (x == 0 && y == 0)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 0 && y == 7)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 0 && y == 14)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 7 && y == 0)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 7 && y == 14)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 14 && y == 0)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 14 && y == 7)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 14 && y == 14)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
+                    else if (x == 7 && y == 7)
+                        boardSpaces[x, y] = new BoardSpace(null, "", true, x, y);
+
+                    //double letters
+                    else if (x == 0 && y == 3)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 0 && y == 11)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 2 && y == 6)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 2 && y == 8)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 3 && y == 0)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 3 && y == 7)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 3 && y == 14)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 6 && y == 2)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 6 && y == 6)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 6 && y == 8)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 6 && y == 12)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 7 && y == 3)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 7 && y == 11)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 8 && y == 2)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 8 && y == 6)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 8 && y == 8)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 8 && y == 12)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 11 && y == 0)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 11 && y == 7)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 11 && y == 14)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 12 && y == 6)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 12 && y == 8)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    else if (x == 14 && y == 3)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+                    else if (x == 14 && y == 11)
+                        boardSpaces[x, y] = new BoardSpace(null, "2L", true, x, y);
+
+                    //double words
+                    else if (x == 1 && y == 1)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 2 && y == 2)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 3 && y == 3)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 4 && y == 4)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+
+                    else if (x == 1 && y == 13)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 2 && y == 12)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 3 && y == 11)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 4 && y == 10)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+
+                    else if (x == 13 && y == 1)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 12 && y == 2)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 11 && y == 3)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 10 && y == 4)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+
+                    else if (x == 13 && y == 13)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 12 && y == 12)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 11 && y == 11)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+                    else if (x == 10 && y == 10)
+                        boardSpaces[x, y] = new BoardSpace(null, "2W", true, x, y);
+
+                    //triple letters
+                    else if (x == 5 && y == 1)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 1 && y == 5)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 5 && y == 5)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+
+                    else if (x == 9 && y == 1)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 13 && y == 5)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 9 && y == 5)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+
+
+                    else if (x == 5 && y == 13)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 1 && y == 9)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 5 && y == 9)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+
+                    else if (x == 9 && y == 13)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 13 && y == 9)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+                    else if (x == 9 && y == 9)
+                        boardSpaces[x, y] = new BoardSpace(null, "3L", true, x, y);
+
+                    //empty
+                    else
+                        boardSpaces[x, y] = new BoardSpace(null, "", true, x, y);
                 }
             }
         }
