@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrabbleNamespace
 {
-    public class Board : MonoBehaviour
+    public class Board : NetworkBehaviour
     {
         BoardSpace[,] boardSpaces = new BoardSpace[15,15];
 

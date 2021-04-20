@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 namespace ScrabbleNamespace
 {
-    public class BoardSpace : MonoBehaviour
+    public class BoardSpace : NetworkBehaviour
     {
         private Tile tile;
         private string modifier;

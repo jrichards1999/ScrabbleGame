@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 namespace ScrabbleNamespace {
-    public class Player : Scrabble
+    public class Player : NetworkBehaviour
     {
         public string Name;
         public int TotalPoints;

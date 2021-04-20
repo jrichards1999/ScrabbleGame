@@ -84,6 +84,10 @@ namespace ScrabbleNamespace
         {
         }
 
+        private void FixedUpdate() {
+
+        }
+
         void OnMouseDown() {
             beingDragged = true;
             dragPlane = new Plane(myMainCamera.transform.forward, transform.position);
@@ -117,28 +121,23 @@ namespace ScrabbleNamespace
 
 
             bool snapped = false;
-            for (int x = 0; x < numRows; x++)
-            {
+            for (int x = 0; x < numRows; x++) {
                 float sliceCiel = (sliceWidth * (float)(x + 1)) + left;
-                if(transform.position.x < sliceCiel)
-                {
+                if (transform.position.x < sliceCiel) {
                     //set to regular increment
                     transform.position = new Vector2(left + (sliceWidth * (float)x) + (sliceWidth / 2f), transform.position.y);
                     snapped = true;
                     break;
                 }
             }
-            if(!snapped)
-            {
+            if (!snapped) {
                 transform.position = new Vector2(left + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f), transform.position.y);
             }
             snapped = false;
-            for (int y = 0; y < numRows; y++)
-            {
+            for (int y = 0; y < numRows; y++) {
                 float sliceFloor = (sliceWidth * (float)y) + bottom;
                 float sliceCiel = (sliceWidth * (float)(y + 1)) + bottom;
-                if (transform.position.y < sliceCiel)
-                {
+                if (transform.position.y < sliceCiel) {
                     //set to regular increment
                     float yfloat = bottom + (sliceWidth * (float)y) + (sliceWidth / 2f);
                     transform.position = new Vector2(transform.position.x, yfloat);
@@ -146,8 +145,7 @@ namespace ScrabbleNamespace
                     break;
                 }
             }
-            if (!snapped)
-            {
+            if (!snapped) {
                 transform.position = new Vector2(transform.position.x, bottom + (sliceWidth * ((float)numRows - 1f)) + (sliceWidth / 2f));
                 snapped = false;
             }

@@ -5,8 +5,9 @@ using System.IO;
 using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class IPButtonHandler : MonoBehaviour
+public class IPButtonHandler : NetworkBehaviour
 {
     public Text IPtxt;
 
