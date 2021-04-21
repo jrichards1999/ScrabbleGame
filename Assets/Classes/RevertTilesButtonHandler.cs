@@ -85,6 +85,10 @@ namespace ScrabbleNamespace {
                     }
                 }
             }
+            foreach(var space in Board.spacesPlayed)
+            {
+                Board.RemoveTile(space.getTile());
+            }
             Board.spacesPlayed.Clear();
         }
     }
