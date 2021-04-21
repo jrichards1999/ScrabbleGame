@@ -36,8 +36,8 @@ namespace ScrabbleNamespace
 
                     if (!boardSpaces[x, y].IsEmpty && tile == boardSpaces[x, y].getTile())
                     {
-                        boardSpaces[x, y].Clear();
                         spacesPlayed.Remove(boardSpaces[x, y]);
+                        boardSpaces[x, y].Clear();
                         return true;
                     }
                 }
