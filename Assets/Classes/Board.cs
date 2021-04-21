@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ScrabbleNamespace
 {
@@ -74,9 +75,13 @@ namespace ScrabbleNamespace
                 }
                 if (Scrabble.PlayerTurn == "Player1") {
                     Scrabble.PlayerTurn = "Player2";
+                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                    currentPlayer.text = "Player 2's Turn";
                 }
                 else if (Scrabble.PlayerTurn == "Player2") {
                     Scrabble.PlayerTurn = "Player1";
+                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                    currentPlayer.text = "Player 1's Turn";
                 }
             }
             if (validTurn)
@@ -95,6 +100,14 @@ namespace ScrabbleNamespace
                 }
 
                 spacesPlayed.Clear();
+            }
+            else {
+                Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                string oldText = currentPlayer.text;
+                if (!oldText.Contains("Invalid")) {
+                    string newText = "Invalid word, " + oldText;
+                    currentPlayer.text = newText;
+                }
             }
             
             return validTurn;
