@@ -7,7 +7,7 @@ namespace ScrabbleNamespace {
     {
         public string Name;
         public int TotalPoints;
-        public char[] TileList = new char[7];
+        public Tile[] TileList = new Tile[7];
         public List<Tile> TempList;
         public List<Tile> PlayedTileList;
 

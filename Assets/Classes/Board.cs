@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ScrabbleNamespace
 {
@@ -61,27 +62,11 @@ namespace ScrabbleNamespace
             bool validTurn = Scrabble.validTurn(spacesPlayed);
 
             //If the turn is valid, remove the specific tiles played from the correct users list of tiles.
-            if (validTurn) {
-                for (int i = 0; i < spacesPlayed.Count; i++) {
-                    if (Scrabble.PlayerTurn == "Player1") {
-                        Scrabble.p1.TileList[spacesPlayed[i].getTilePlayerIndex()] = '\0';
-                    }
-                    else if (Scrabble.PlayerTurn == "Player2") {
-                        Scrabble.p2.TileList[spacesPlayed[i].getTilePlayerIndex()] = '\0';
-                    }
-                    //No longer in the players hand, so set index to -1
-                    spacesPlayed[i].setTilePlayerIndex(-1);
-                }
-                if (Scrabble.PlayerTurn == "Player1") {
-                    Scrabble.PlayerTurn = "Player2";
-                }
-                else if (Scrabble.PlayerTurn == "Player2") {
-                    Scrabble.PlayerTurn = "Player1";
-                }
-            }
+            
             if (validTurn)
             {
                 int score = Scrabble.calculateScore(spacesPlayed);
+
                 for (int x = 0; x < 15; x++)
                 {
                     for (int y = 0; y < 15; y++)
@@ -94,9 +79,50 @@ namespace ScrabbleNamespace
                     }
                 }
 
+                if(Scrabble.PlayerTurn == "Player1")
+                {
+                    Scrabble.p1.TotalPoints += score;
+                    GameObject go = GameObject.Find("Player1ScoreLabel");
+                    Text txt = (Text)go.GetComponent(typeof(Text));
+                    txt.text = String.Format("Score: {0}", Scrabble.p1.TotalPoints);
+                }
+                else
+                {
+                    Scrabble.p2.TotalPoints += score;
+                    GameObject go = GameObject.Find("Player2ScoreLabel");
+                    Text txt = (Text)go.GetComponent(typeof(Text));
+                    txt.text = String.Format("Score: {0}", Scrabble.p2.TotalPoints);
+                }
+
+                
+
                 spacesPlayed.Clear();
             }
-            
+            if (validTurn)
+            {
+                for (int i = 0; i < spacesPlayed.Count; i++)
+                {
+                    if (Scrabble.PlayerTurn == "Player1")
+                    {
+                        Scrabble.p1.TileList[spacesPlayed[i].getTilePlayerIndex()] = null;
+                    }
+                    else if (Scrabble.PlayerTurn == "Player2")
+                    {
+                        Scrabble.p2.TileList[spacesPlayed[i].getTilePlayerIndex()] = null;
+                    }
+                    //No longer in the players hand, so set index to -1
+                    spacesPlayed[i].setTilePlayerIndex(-1);
+                }
+                if (Scrabble.PlayerTurn == "Player1")
+                {
+                    Scrabble.PlayerTurn = "Player2";
+                }
+                else if (Scrabble.PlayerTurn == "Player2")
+                {
+                    Scrabble.PlayerTurn = "Player1";
+                }
+            }
+
             return validTurn;
         }
 
