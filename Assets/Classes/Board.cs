@@ -30,9 +30,9 @@ namespace ScrabbleNamespace
             {
                 for (int y = 0; y < 15; y++)
                 {
-                    
-                    
-                    if (!boardSpaces[x,y].IsEmpty && tile == boardSpaces[x, y].getTile())
+
+
+                    if (!boardSpaces[x, y].IsEmpty && tile == boardSpaces[x, y].getTile())
                     {
                         boardSpaces[x, y].Clear();
                         spacesPlayed.Remove(boardSpaces[x, y]);
@@ -62,7 +62,7 @@ namespace ScrabbleNamespace
             bool validTurn = Scrabble.validTurn(spacesPlayed);
 
             //If the turn is valid, remove the specific tiles played from the correct users list of tiles.
-            
+
             if (validTurn)
             {
                 int score = Scrabble.calculateScore(spacesPlayed);
@@ -71,7 +71,7 @@ namespace ScrabbleNamespace
                 {
                     for (int y = 0; y < 15; y++)
                     {
-                        if(!boardSpaces[x,y].IsEmpty)
+                        if (!boardSpaces[x, y].IsEmpty)
                         {
                             boardSpaces[x, y].getTile().Lock();
                             lockedBoardSpaces[x, y] = boardSpaces[x, y];
@@ -79,7 +79,7 @@ namespace ScrabbleNamespace
                     }
                 }
 
-                if(Scrabble.PlayerTurn == "Player1")
+                if (Scrabble.PlayerTurn == "Player1")
                 {
                     Scrabble.p1.TotalPoints += score;
                     GameObject go = GameObject.Find("Player1ScoreLabel");
@@ -107,17 +107,17 @@ namespace ScrabbleNamespace
 
                     foreach (Tile tile in Scrabble.p2.TileList)
                     {
-                        if(tile != null)
+                        if (tile != null)
                             tile.Lock();
                     }
                     foreach (Tile tile in Scrabble.p1.TileList)
                     {
-                        if(tile != null)
+                        if (tile != null)
                             tile.Unlock();
                     }
                 }
 
-                
+
             }
             if (validTurn)
             {
@@ -137,25 +137,32 @@ namespace ScrabbleNamespace
                 if (Scrabble.PlayerTurn == "Player1")
                 {
                     Scrabble.PlayerTurn = "Player2";
+                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                    currentPlayer.text = "Player 2's Turn";
                 }
                 else if (Scrabble.PlayerTurn == "Player2")
                 {
                     Scrabble.PlayerTurn = "Player1";
+                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                    currentPlayer.text = "Player 1's Turn";
                 }
             }
 
-            if(validTurn)
+            if (validTurn)
+            {
                 spacesPlayed.Clear();
-
-            else {
+            }
+            else
+            {
                 Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
                 string oldText = currentPlayer.text;
-                if (!oldText.Contains("Invalid")) {
+                if (!oldText.Contains("Invalid"))
+                {
                     string newText = "Invalid word, " + oldText;
                     currentPlayer.text = newText;
                 }
             }
-            
+
             return validTurn;
         }
 
