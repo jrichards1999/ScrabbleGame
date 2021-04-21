@@ -23,14 +23,6 @@ namespace ScrabbleNamespace {
         private Vector2 player2Pos6 = new Vector2(6, -1.05f);
         private Vector2 player2Pos7 = new Vector2(6, -1.6f);
 
-        public void Start() {
-            
-        }
-
-        public void Update() {
-
-        }
-
         public void OnClick() {
 
             if (Scrabble.tilePile.Count != 0) {

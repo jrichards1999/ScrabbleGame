@@ -14,7 +14,7 @@ namespace ScrabbleNamespace
 
         static BoardSpace[,] lockedBoardSpaces = new BoardSpace[15, 15];
 
-        static List<BoardSpace> spacesPlayed = new List<BoardSpace>();
+        public static List<BoardSpace> spacesPlayed = new List<BoardSpace>();
 
         /// <summary>
         /// Will create a board that contains tiles quickly for testing purposes.

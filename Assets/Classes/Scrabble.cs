@@ -248,13 +248,17 @@ namespace ScrabbleNamespace
             {
                 string word = "";
                 word += space.getTile().getLetter();
+                if(!checkListForMatch(space, spacesAdded))
+                {
+                    spacesAdded.Add(space);
+                }
 
-                //Check Above and Below
+                //Check Left and Right
                 if ((space.getX() != 0 && Board.boardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && Board.boardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
                 {
                     int xIndex = space.getX();
                     int yIndex = space.getY();
-                    //Above
+                    //Left
                     while (xIndex != 0 && Board.boardSpaces[xIndex - 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex - 1, yIndex], spacesAdded))
                     {
                         spacesAdded.Add(Board.boardSpaces[xIndex - 1, yIndex]);
@@ -267,7 +271,7 @@ namespace ScrabbleNamespace
                     xIndex = space.getX();
                     yIndex = space.getY();
 
-                    //Below
+                    //Right
                     while (xIndex != 15 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
                     {
                         spacesAdded.Add(Board.boardSpaces[xIndex + 1, yIndex]);
@@ -285,16 +289,16 @@ namespace ScrabbleNamespace
 
                 word = "";
                 word += space.getTile().getLetter();
-                //Check Left and Right Space 
+                //Check Above and Below Space 
                 if ((space.getY() != 0 && Board.boardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && Board.boardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
                 {
                     int xIndex = space.getX();
                     int yIndex = space.getY();
-                    //Left
+                    //Below
                     while (yIndex != 0 && Board.boardSpaces[xIndex, yIndex - 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex - 1], spacesAdded))
                     {
                         spacesAdded.Add(Board.boardSpaces[xIndex, yIndex - 1]);
-                        word = Board.boardSpaces[xIndex, yIndex - 1].getTile().getLetter() + word;
+                        word = word + Board.boardSpaces[xIndex, yIndex - 1].getTile().getLetter();
                         Console.WriteLine(word);
 
                         yIndex--;
@@ -303,11 +307,11 @@ namespace ScrabbleNamespace
                     xIndex = space.getX();
                     yIndex = space.getY();
 
-                    //Right
+                    //Above
                     while (yIndex != 15 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
                     {
                         spacesAdded.Add(Board.boardSpaces[xIndex, yIndex + 1]);
-                        word = word + Board.boardSpaces[xIndex, yIndex + 1].getTile().getLetter();
+                        word = Board.boardSpaces[xIndex, yIndex + 1].getTile().getLetter() + word;
                         Console.WriteLine(word);
 
                         yIndex++;
@@ -327,15 +331,26 @@ namespace ScrabbleNamespace
                 NetSpell.SpellChecker.Spelling oSpell = new NetSpell.SpellChecker.Spelling();
 
                 oSpell.Dictionary = oDict;
-                if (!oSpell.TestWord(wordToCheck))
+                string reverse = reverseWord(wordToCheck);
+                if (!oSpell.TestWord(reverse) && !oSpell.TestWord(wordToCheck))
                 {
                     //FAKE WORD DETECTED - RETURN FALSE AND NOTIFY PLAYER THEIR TURN IS NO GOOD
                     return false;
                 }
             }
 
+            if(Board.boardSpaces[7, 7].checkEmpty() || wordsPlayed.Count == 0)
+            {
+                return false;
+            }
+            return true;//ALL WORDS ARE GOOD, Star space is used
+        }
 
-            return true;//ALL WORDS ARE GOOD
+        static string reverseWord(string word)
+        {
+            char[] charArray = word.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
         }
 
         static void Main(string[] args)
@@ -365,11 +380,6 @@ namespace ScrabbleNamespace
                 {
                     tilePile.Add(new Tile(tileLetter));
                 }
-            }
-
-            for(int i = 0; i < 2; i++)
-            {
-                tilePile.Add(new Tile(' ', true));
             }
 
             tilePile = Shuffle(tilePile); //Need to test this shuffle function with debugger.
