@@ -85,6 +85,18 @@ namespace ScrabbleNamespace
                     GameObject go = GameObject.Find("Player1ScoreLabel");
                     Text txt = (Text)go.GetComponent(typeof(Text));
                     txt.text = String.Format("Score: {0}", Scrabble.p1.TotalPoints);
+
+                    foreach (Tile tile in Scrabble.p1.TileList)
+                    {
+                        if (tile != null)
+                            tile.Lock();
+                    }
+                    foreach (Tile tile in Scrabble.p2.TileList)
+                    {
+                        if (tile != null)
+                            tile.Unlock();
+                    }
+
                 }
                 else
                 {
@@ -92,11 +104,20 @@ namespace ScrabbleNamespace
                     GameObject go = GameObject.Find("Player2ScoreLabel");
                     Text txt = (Text)go.GetComponent(typeof(Text));
                     txt.text = String.Format("Score: {0}", Scrabble.p2.TotalPoints);
+
+                    foreach (Tile tile in Scrabble.p2.TileList)
+                    {
+                        if(tile != null)
+                            tile.Lock();
+                    }
+                    foreach (Tile tile in Scrabble.p1.TileList)
+                    {
+                        if(tile != null)
+                            tile.Unlock();
+                    }
                 }
 
                 
-
-                spacesPlayed.Clear();
             }
             if (validTurn)
             {
@@ -122,6 +143,9 @@ namespace ScrabbleNamespace
                     Scrabble.PlayerTurn = "Player1";
                 }
             }
+
+            if(validTurn)
+                spacesPlayed.Clear();
 
             return validTurn;
         }

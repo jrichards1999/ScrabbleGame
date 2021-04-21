@@ -81,6 +81,12 @@ namespace ScrabbleNamespace
         {
             this.locked = true;
         }
+
+        public void Unlock()
+        {
+            this.locked = false;
+        }
+
         public Tile(char character, bool blank = false)
         {
             if (!blank)

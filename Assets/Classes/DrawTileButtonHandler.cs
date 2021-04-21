@@ -110,6 +110,12 @@ namespace ScrabbleNamespace {
                         var MyPrefab = Resources.Load<GameObject>(path);
                         GameObject go = Instantiate(MyPrefab, position, Quaternion.identity);
                         var v = (Tile)go.GetComponent(typeof(Tile));
+
+                        if(Scrabble.PlayerTurn == "Player1")
+                            Scrabble.p1.TileList[i] = v;
+                        else if (Scrabble.PlayerTurn == "Player2")
+                            Scrabble.p2.TileList[i] = v;
+
                         v.Letter = tile.getLetter();
                         v.UserListIndex = i;
                     }
