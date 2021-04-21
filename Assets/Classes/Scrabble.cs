@@ -64,6 +64,10 @@ namespace ScrabbleNamespace
         //returns: an integer totaling the spaces played, as well as all the confirmed viable Tiles up, down, left and right of each of those spaces played
         public static int calculateScore(List<BoardSpace> spacesPlayed)
         {
+            if(spacesPlayed.Count == 0)
+            {
+                return 0;
+            }
             int total = 0;
             int wordTotal = 0;
             string modifiers = "";
@@ -334,8 +338,12 @@ namespace ScrabbleNamespace
                 string reverse = reverseWord(wordToCheck);
                 if (!oSpell.TestWord(reverse) && !oSpell.TestWord(wordToCheck))
                 {
-                    //FAKE WORD DETECTED - RETURN FALSE AND NOTIFY PLAYER THEIR TURN IS NO GOOD
-                    return false;
+                    //Allows no tiles to be played and still be a valid turn
+                    if(spacesPlayed.Count != 0)
+                    {
+                        //FAKE WORD DETECTED - RETURN FALSE AND NOTIFY PLAYER THEIR TURN IS NO GOOD
+                        return false;
+                    }                   
                 }
             }
 
