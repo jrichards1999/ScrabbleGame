@@ -20,6 +20,10 @@ namespace ScrabbleNamespace
 
         public void OnClick()
         {
+            if (Scrabble.GameFinished) {
+                return;
+            }
+
             Board.SubmitTiles();
         }
     }

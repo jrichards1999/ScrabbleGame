@@ -16,6 +16,8 @@ namespace ScrabbleNamespace
 
         public static List<BoardSpace> spacesPlayed = new List<BoardSpace>();
 
+        public static int numEmptySpacesPlayedSubmitted = 0;
+
         /// <summary>
         /// Will create a board that contains tiles quickly for testing purposes.
         /// </summary>
@@ -60,6 +62,29 @@ namespace ScrabbleNamespace
         static public bool SubmitTiles()
         {
             bool validTurn = Scrabble.validTurn(spacesPlayed);
+
+            if(spacesPlayed.Count == 0) {
+                numEmptySpacesPlayedSubmitted++;
+            }
+            else {
+                numEmptySpacesPlayedSubmitted = 0;
+            }
+
+            if(numEmptySpacesPlayedSubmitted > 1) {
+                WinnerDisplayHandler w = new WinnerDisplayHandler();
+                if(Scrabble.p1.getPoints() > Scrabble.p2.getPoints()) {
+                    //Show p1 wins card
+                    w.DisplayP1Winner();
+                }
+                else if (Scrabble.p1.getPoints() < Scrabble.p2.getPoints()) {
+                    //Show p2 wins card
+                    w.DisplayP2Winner();
+                }
+                else {
+                    //Show tie card
+                    w.DisplayTie();
+                }
+            }
 
             //If the turn is valid, remove the specific tiles played from the correct users list of tiles.
 
@@ -134,13 +159,13 @@ namespace ScrabbleNamespace
                     //No longer in the players hand, so set index to -1
                     spacesPlayed[i].setTilePlayerIndex(-1);
                 }
-                if (Scrabble.PlayerTurn == "Player1")
+                if (Scrabble.PlayerTurn == "Player1"  && !Scrabble.GameFinished)
                 {
                     Scrabble.PlayerTurn = "Player2";
                     Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
                     currentPlayer.text = "Player 2's Turn";
                 }
-                else if (Scrabble.PlayerTurn == "Player2")
+                else if (Scrabble.PlayerTurn == "Player2" && !Scrabble.GameFinished)
                 {
                     Scrabble.PlayerTurn = "Player1";
                     Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();

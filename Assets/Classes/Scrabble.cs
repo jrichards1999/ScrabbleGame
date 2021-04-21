@@ -11,6 +11,7 @@ namespace ScrabbleNamespace
         public static Player p2 = new Player();
         public static List<Tile> tilePile;
         public static string PlayerTurn = "Player1";
+        public static bool GameFinished = false;
 
         //static void populateBoard()
         //{
@@ -239,7 +240,7 @@ namespace ScrabbleNamespace
         public static bool validTurn(List<BoardSpace> spacesPlayed)
         {
             if (spacesPlayed.Count < 1)
-                return false;
+                return true;
             NetSpell.SpellChecker.Dictionary.WordDictionary oDict = new NetSpell.SpellChecker.Dictionary.WordDictionary();
 
             oDict.DictionaryFile = @"Assets\Packages\NetSpell.2.1.7\dic\en-US.dic";

@@ -21,6 +21,10 @@ namespace ScrabbleNamespace {
         private Vector2 player2Pos7 = new Vector2(6, -1.6f);
 
         public void OnClick() {
+            if (Scrabble.GameFinished) {
+                return;
+            }
+
             if(Scrabble.PlayerTurn == "Player1") {
                 for(int i = 0; i < Board.spacesPlayed.Count; i++) {
                     var playedTile = (Tile)Board.spacesPlayed[i].getTile();
