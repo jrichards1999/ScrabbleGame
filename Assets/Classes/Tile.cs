@@ -15,6 +15,7 @@ namespace ScrabbleNamespace
 
         private int pointVal;
         private char letter;
+        private int userListIndex = -1;
         private Camera myMainCamera;
         private bool locked = false;
         private bool beingDragged = false;
@@ -30,6 +31,15 @@ namespace ScrabbleNamespace
             {
                 letter = value;
                 pointVal = GetPointValue(value);
+            }
+        }
+
+        public int UserListIndex {
+            get {
+                return userListIndex;
+            }
+            set {
+                userListIndex = value;
             }
         }
 

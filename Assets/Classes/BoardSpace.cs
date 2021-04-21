@@ -61,6 +61,13 @@ namespace ScrabbleNamespace
             this.IsEmpty = false;
         }
 
+        public void setTilePlayerIndex(int index) {
+            tile.UserListIndex = index;
+        }
+        public int getTilePlayerIndex() {
+            return tile.UserListIndex;
+        }
+
         public void Clear()
         {
             this.tile = null;

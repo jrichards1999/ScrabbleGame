@@ -7,7 +7,7 @@ namespace ScrabbleNamespace {
     {
         public string Name;
         public int TotalPoints;
-        public ArrayList TileList;
+        public char[] TileList = new char[7];
         public List<Tile> TempList;
         public List<Tile> PlayedTileList;
 
@@ -38,7 +38,7 @@ namespace ScrabbleNamespace {
         public void updateList(int index)
         {
             PlayedTileList.Add(TempList[index]);
-            TileList.RemoveAt(index);
+            //TileList.RemoveAt(index);
         }
 
         public void playerTurn()
@@ -47,10 +47,10 @@ namespace ScrabbleNamespace {
 
             while (!done)
             {
-                if (TileList.Count == 0)
-                {
-                    done = true;
-                }
+                //if (TileList.Count == 0)
+                //{
+                //    done = true;
+                //}
 
                 //var index = placeTile() - TODO method to place tile, and return index of TileList from which the tile was taken
                 //updateList(index);

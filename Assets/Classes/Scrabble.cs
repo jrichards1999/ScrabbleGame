@@ -7,8 +7,8 @@ namespace ScrabbleNamespace
 {
     public class Scrabble : MonoBehaviour
     {
-        //Player p1 = new Player();
-        //Player p2 = new Player();
+        public static Player p1 = new Player();
+        public static Player p2 = new Player();
         public static List<Tile> tilePile;
         public static string PlayerTurn = "Player1";
 
