@@ -59,7 +59,6 @@ namespace ScrabbleNamespace
         static public bool SubmitTiles()
         {
             bool validTurn = Scrabble.validTurn(spacesPlayed);
-            int score = Scrabble.calculateScore(spacesPlayed);
 
             //If the turn is valid, remove the specific tiles played from the correct users list of tiles.
             if (validTurn) {
@@ -114,6 +113,7 @@ namespace ScrabbleNamespace
                     else if (x == 0 && y == 7)
                         boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
                     else if (x == 0 && y == 14)
+                        boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
                     else if (x == 7 && y == 0)
                         boardSpaces[x, y] = new BoardSpace(null, "3W", true, x, y);
                     else if (x == 7 && y == 14)
