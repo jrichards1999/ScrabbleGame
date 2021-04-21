@@ -30,9 +30,9 @@ namespace ScrabbleNamespace
             {
                 for (int y = 0; y < 15; y++)
                 {
-                    
-                    
-                    if (!boardSpaces[x,y].IsEmpty && tile == boardSpaces[x, y].getTile())
+
+
+                    if (!boardSpaces[x, y].IsEmpty && tile == boardSpaces[x, y].getTile())
                     {
                         boardSpaces[x, y].Clear();
                         spacesPlayed.Remove(boardSpaces[x, y]);
@@ -62,36 +62,16 @@ namespace ScrabbleNamespace
             bool validTurn = Scrabble.validTurn(spacesPlayed);
 
             //If the turn is valid, remove the specific tiles played from the correct users list of tiles.
-            if (validTurn) {
-                for (int i = 0; i < spacesPlayed.Count; i++) {
-                    if (Scrabble.PlayerTurn == "Player1") {
-                        Scrabble.p1.TileList[spacesPlayed[i].getTilePlayerIndex()] = '\0';
-                    }
-                    else if (Scrabble.PlayerTurn == "Player2") {
-                        Scrabble.p2.TileList[spacesPlayed[i].getTilePlayerIndex()] = '\0';
-                    }
-                    //No longer in the players hand, so set index to -1
-                    spacesPlayed[i].setTilePlayerIndex(-1);
-                }
-                if (Scrabble.PlayerTurn == "Player1") {
-                    Scrabble.PlayerTurn = "Player2";
-                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
-                    currentPlayer.text = "Player 2's Turn";
-                }
-                else if (Scrabble.PlayerTurn == "Player2") {
-                    Scrabble.PlayerTurn = "Player1";
-                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
-                    currentPlayer.text = "Player 1's Turn";
-                }
-            }
+
             if (validTurn)
             {
                 int score = Scrabble.calculateScore(spacesPlayed);
+
                 for (int x = 0; x < 15; x++)
                 {
                     for (int y = 0; y < 15; y++)
                     {
-                        if(!boardSpaces[x,y].IsEmpty)
+                        if (!boardSpaces[x, y].IsEmpty)
                         {
                             boardSpaces[x, y].getTile().Lock();
                             lockedBoardSpaces[x, y] = boardSpaces[x, y];
@@ -99,17 +79,90 @@ namespace ScrabbleNamespace
                     }
                 }
 
+                if (Scrabble.PlayerTurn == "Player1")
+                {
+                    Scrabble.p1.TotalPoints += score;
+                    GameObject go = GameObject.Find("Player1ScoreLabel");
+                    Text txt = (Text)go.GetComponent(typeof(Text));
+                    txt.text = String.Format("Score: {0}", Scrabble.p1.TotalPoints);
+
+                    foreach (Tile tile in Scrabble.p1.TileList)
+                    {
+                        if (tile != null)
+                            tile.Lock();
+                    }
+                    foreach (Tile tile in Scrabble.p2.TileList)
+                    {
+                        if (tile != null)
+                            tile.Unlock();
+                    }
+
+                }
+                else
+                {
+                    Scrabble.p2.TotalPoints += score;
+                    GameObject go = GameObject.Find("Player2ScoreLabel");
+                    Text txt = (Text)go.GetComponent(typeof(Text));
+                    txt.text = String.Format("Score: {0}", Scrabble.p2.TotalPoints);
+
+                    foreach (Tile tile in Scrabble.p2.TileList)
+                    {
+                        if (tile != null)
+                            tile.Lock();
+                    }
+                    foreach (Tile tile in Scrabble.p1.TileList)
+                    {
+                        if (tile != null)
+                            tile.Unlock();
+                    }
+                }
+
+
+            }
+            if (validTurn)
+            {
+                for (int i = 0; i < spacesPlayed.Count; i++)
+                {
+                    if (Scrabble.PlayerTurn == "Player1")
+                    {
+                        Scrabble.p1.TileList[spacesPlayed[i].getTilePlayerIndex()] = null;
+                    }
+                    else if (Scrabble.PlayerTurn == "Player2")
+                    {
+                        Scrabble.p2.TileList[spacesPlayed[i].getTilePlayerIndex()] = null;
+                    }
+                    //No longer in the players hand, so set index to -1
+                    spacesPlayed[i].setTilePlayerIndex(-1);
+                }
+                if (Scrabble.PlayerTurn == "Player1")
+                {
+                    Scrabble.PlayerTurn = "Player2";
+                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                    currentPlayer.text = "Player 2's Turn";
+                }
+                else if (Scrabble.PlayerTurn == "Player2")
+                {
+                    Scrabble.PlayerTurn = "Player1";
+                    Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                    currentPlayer.text = "Player 1's Turn";
+                }
+            }
+
+            if (validTurn)
+            {
                 spacesPlayed.Clear();
             }
-            else {
+            else
+            {
                 Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
                 string oldText = currentPlayer.text;
-                if (!oldText.Contains("Invalid")) {
+                if (!oldText.Contains("Invalid"))
+                {
                     string newText = "Invalid word, " + oldText;
                     currentPlayer.text = newText;
                 }
             }
-            
+
             return validTurn;
         }
 
