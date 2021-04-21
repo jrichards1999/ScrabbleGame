@@ -147,6 +147,15 @@ namespace ScrabbleNamespace
             if(validTurn)
                 spacesPlayed.Clear();
 
+            else {
+                Text currentPlayer = GameObject.Find("CurrentPlayerIndicator").GetComponent<Text>();
+                string oldText = currentPlayer.text;
+                if (!oldText.Contains("Invalid")) {
+                    string newText = "Invalid word, " + oldText;
+                    currentPlayer.text = newText;
+                }
+            }
+            
             return validTurn;
         }
 
