@@ -77,7 +77,7 @@ namespace ScrabbleNamespace
             foreach (BoardSpace space in spacesPlayed)
             {
                 //Check Above and Below
-                if ((space.getX() != 0 && Board.boardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 15 && Board.boardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
+                if ((space.getX() != 0 && Board.boardSpaces[space.getX() - 1, space.getY()].checkEmpty() == false) || (space.getX() != 14 && Board.boardSpaces[space.getX() + 1, space.getY()].checkEmpty() == false))
                 {
                     //Add all modifiers, although this string will only be checked later for double or triple word
                     modifiers += space.getMod();
@@ -119,7 +119,7 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Below
-                    while (xIndex != 15 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
+                    while (xIndex != 14 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
                     {
                         if (!spacesPlayed.Contains(Board.boardSpaces[xIndex + 1, yIndex]))
                         {
@@ -154,7 +154,7 @@ namespace ScrabbleNamespace
             foreach (BoardSpace space in spacesPlayed)
             {
                 //Check Left and Right Space 
-                if ((space.getY() != 0 && Board.boardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 15 && Board.boardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
+                if ((space.getY() != 0 && Board.boardSpaces[space.getX(), space.getY() - 1].checkEmpty() == false) || (space.getY() != 14 && Board.boardSpaces[space.getX(), space.getY() + 1].checkEmpty() == false))
                 {
                     //Add the modifier when checking left and right only if that modifier wasn't already used - otherwise just add the value of the tile
                     if (!countedPlays.Contains(space))
@@ -203,7 +203,7 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Right
-                    while (yIndex != 15 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
+                    while (yIndex != 14 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
                     {
                         if (!spacesPlayed.Contains(Board.boardSpaces[xIndex, yIndex + 1]))
                         {
