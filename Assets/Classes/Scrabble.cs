@@ -272,7 +272,7 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Right
-                    while (xIndex != 15 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
+                    while (xIndex != 14 && Board.boardSpaces[xIndex + 1, yIndex].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex + 1, yIndex], spacesAdded))
                     {
                         spacesAdded.Add(Board.boardSpaces[xIndex + 1, yIndex]);
                         word = word + Board.boardSpaces[xIndex + 1, yIndex].getTile().getLetter();
@@ -308,7 +308,7 @@ namespace ScrabbleNamespace
                     yIndex = space.getY();
 
                     //Above
-                    while (yIndex != 15 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
+                    while (yIndex != 14 && Board.boardSpaces[xIndex, yIndex + 1].checkEmpty() == false && !checkListForMatch(Board.boardSpaces[xIndex, yIndex + 1], spacesAdded))
                     {
                         spacesAdded.Add(Board.boardSpaces[xIndex, yIndex + 1]);
                         word = Board.boardSpaces[xIndex, yIndex + 1].getTile().getLetter() + word;
