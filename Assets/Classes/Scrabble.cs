@@ -331,20 +331,19 @@ namespace ScrabbleNamespace
                 NetSpell.SpellChecker.Spelling oSpell = new NetSpell.SpellChecker.Spelling();
 
                 oSpell.Dictionary = oDict;
-                if (!oSpell.TestWord(wordToCheck))
+                string reverse = reverseWord(wordToCheck);
+                if (!oSpell.TestWord(reverse) && !oSpell.TestWord(wordToCheck))
                 {
-                    string reverse = reverseWord(wordToCheck);
-                    if (oSpell.TestWord(reverse))
-                    {
-                        return true;
-                    }
                     //FAKE WORD DETECTED - RETURN FALSE AND NOTIFY PLAYER THEIR TURN IS NO GOOD
                     return false;
                 }
             }
 
-
-            return true;//ALL WORDS ARE GOOD
+            if(Board.boardSpaces[7, 7].checkEmpty() || wordsPlayed.Count == 0)
+            {
+                return false;
+            }
+            return true;//ALL WORDS ARE GOOD, Star space is used
         }
 
         static string reverseWord(string word)
