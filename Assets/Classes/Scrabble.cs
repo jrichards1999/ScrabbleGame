@@ -367,11 +367,6 @@ namespace ScrabbleNamespace
                 }
             }
 
-            for(int i = 0; i < 2; i++)
-            {
-                tilePile.Add(new Tile(' ', true));
-            }
-
             tilePile = Shuffle(tilePile); //Need to test this shuffle function with debugger.
 
             return tilePile;
